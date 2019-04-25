@@ -1,0 +1,15 @@
+<core:FragmentDefinition
+   xmlns="sap.m"
+   xmlns:core="sap.ui.core" >
+   <Dialog
+      id="Dialog"
+      title="Salut Monsieur! {/recipient/name}">
+      <beginButton>
+         <Button
+            text="{i18n>dialogFermerButtonTexte}"
+            press=".onFermerDialog"
+            icon="sap-icon://decline"/>
+            
+      </beginButton>
+   </Dialog>
+</core:FragmentDefinition>
