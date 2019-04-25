@@ -1,0 +1,57 @@
+<mvc:View
+	controllerName="sap.ui.opensap.controller.App"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	displayBlock="true">
+	<Shell>
+		<App class="myAppDemoWT">
+			<pages>
+				<Page title="{i18n>homePageTitle}">
+				<headerContent>
+						<Button
+							icon="sap-icon://hello-world"
+							press=".onOuvertDialog"/>
+					</headerContent>
+					<content>
+						<mvc:XMLView viewName="sap.ui.opensap.view.app_Main"/>
+						<mvc:XMLView viewName="sap.ui.opensap.view.InvoiceList"/>
+					</content>
+				</Page>
+			</pages>
+		</App>
+	</Shell>
+</mvc:View>
+
+<!-- <mvc:View
+	controllerName="sap.ui.opensap.controller.App"
+  	xmlns="sap.m"
+   	xmlns:mvc="sap.ui.core.mvc"
+  	displayBlock="true">
+   <Shell>
+   <App class="myAppDemoWT">
+      <pages>
+         <Page title="{i18n>homePageTitle}">
+            <content>
+               <Panel
+                  headerText="{i18n>helloPanelTitle}">
+                  <content>   
+   <Button text="{i18n>monterBougerButtonTexte}"
+   		press=".onBouger"
+   		class="myCustomButton"/>	
+   <Input
+      value="{/recipient/name}"
+      description="Mr.Z {/recipient/name}"
+      valueLiveUpdate="true"
+      width="60%"/>
+      <FormattedText
+									htmlText="Monsieur Z {/recipient/name}"
+									class="sapUiSmallMargin sapThemeHighlight-asColor myCustomText"/>
+      	</content>
+               </Panel>
+            </content>
+         </Page>
+      </pages>
+   </App>
+   </Shell>
+</mvc:View> -->
+
