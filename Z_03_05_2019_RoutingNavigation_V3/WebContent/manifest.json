@@ -1,0 +1,144 @@
+{
+	"_version": "1.12.0",
+	"sap.app": {
+		"id": "sap.ui.opensap",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"dataSources": {
+			"invoiceRemote": {
+				"uri": "https://services.odata.org/V2/Northwind/Northwind.svc/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			}
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		}
+	},
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "sap.ui.opensap.view.App",
+			"type": "XML",
+			"async": true,
+			"id": "app"
+		},
+		"dependencies": {
+			"minUI5Version": "1.60",
+			"libs": {
+				"sap.m": {
+					
+				}
+			}
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "sap.ui.opensap.i18n.i18n"
+				}
+			},
+			"invoice": {
+				"type": "sap.ui.model.json.JSONModel",
+				"uri": "Invoices.json"
+			},
+			"invoice_odata": {
+				"dataSource": "invoiceRemote"
+			},
+			"recipient": {
+				"name": "Le Meilleur_Z"
+			},
+			"employees": {
+				"type": "sap.ui.model.json.JSONModel",
+				"uri": "Employees.json"
+			}
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"viewPath": "sap.ui.opensap.view",
+				"controlId": "app",
+				"controlAggregation": "pages",
+				"transition": "show",
+				"bypassed": {
+					"target": "notFound"
+				},
+				"async": true
+			},
+			"routes": [
+				{
+					"pattern": "",
+					"name": "overview",
+					"target": "overview"
+				},
+				{
+					"pattern": "detail/{invoicePath}",
+					"name": "detail",
+					"target": "detail"
+				},
+				{
+					"pattern": "employees",
+					"name": "employeeList",
+					"target": "employees"
+				},
+				{
+					"pattern": "employees/{employeeId}",
+					"name": "employeeDetail",
+					"target": "employeeDetail"
+				},
+				{
+					"pattern": "employees/{employeeId}/{resume}",
+					"name": "employeeResume",
+					"target": "employeeResume"
+				}
+			],
+			"targets": {
+				"overview": {
+					"viewId": "overview",
+					"viewName": "Overview"
+				},
+				"detail": {
+					"viewId": "detail",
+					"viewName": "Detail"
+				},
+				"notFound": {
+					"viewId": "notFound",
+					"viewName": "NotFound",
+					"transition": "show"
+				},
+				"employees": {
+					"viewId": "employeeList",
+					"viewName": "EmployeeList"
+				},
+				"employeeDetail": {
+					"viewId": "employeeDetail",
+					"viewName": "EmployeeDetail"
+				},
+				"employeeResume": {
+					"viewId": "resume",
+					"viewName": "Resume",
+					"transition": "flip"
+				}
+			}
+		},
+		"resources": {
+			"css": [
+				{
+					"uri": "css/style.css"
+				}
+			]
+		}
+	}
+}
