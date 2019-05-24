@@ -1,0 +1,62 @@
+<mvc:View controllerName="sap.ui.opensap.controller.EmployeeDetail"
+	xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc">
+	<Page title="{i18n>detailPageTitle}" showNavButton="true"
+		navButtonPress=".onNavBack">
+		<content>
+		<List items="{EMPLOYEELIST>/DATA}">	
+				<StandardListItem			
+					title = "{EMPLOYEELIST>FirstName}"
+					info = "{EMPLOYEELIST>LastName}">
+				</StandardListItem>
+			
+		</List>
+		</content>
+	</Page>
+</mvc:View>
+
+
+<!-- <mvc:View
+	controllerName="sap.ui.opensap.controller.EmployeeDetail"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:f="sap.ui.layout.form"
+	busyIndicatorDelay="0">
+	<Page
+		id="employeePage"
+		title="{i18n>EmployeeDetailsOf} {EMPLOYEELIST>FirstName} {EMPLOYEELIST>LastName}"
+		showNavButton="true"
+		navButtonPress=".onNavBack"
+		class="sapUiResponsiveContentPadding">
+		<content>
+			<Panel
+				id="employeePanel"
+				width="auto"
+				class="sapUiResponsiveMargin sapUiNoContentPadding">
+				<headerToolbar>
+					<Toolbar>
+						<Title text="{i18n>EmployeeIDColon} {EMPLOYEELIST>EmployeeID}" level="H2"/>
+						<ToolbarSpacer />
+					</Toolbar>
+				</headerToolbar>
+				<content>
+					<f:SimpleForm
+						minWidth="1024"
+						editable="false"
+						item="{EMPLOYEELIST>/DATA}"
+						layout="ResponsiveGridLayout"
+						labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4"
+						columnsL="1" columnsM="1">
+						<f:content >
+							<Label text="{i18n>formFirstName}"/>
+							<Text text="{EMPLOYEELIST>FirstName}"/>
+							<Label text="{i18n>formLastName}"/>
+							<Text text="{EMPLOYEELIST>LastName}"/>
+							<Label text="{i18n>formCountry}"/>
+							<Text text="{EMPLOYEELIST>Country}"/>
+						</f:content>
+					</f:SimpleForm>
+				</content>
+			</Panel>
+		</content>
+	</Page>
+</mvc:View> -->
