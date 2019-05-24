@@ -1,0 +1,60 @@
+<mvc:View
+	controllerName="sap.ui.opensap.controller.Detail"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:wt="sap.ui.opensap.control">
+	<Page
+		title="{i18n>detailPageTitle}"
+		showNavButton="true"
+		path=''
+		navButtonPress=".onNavBack">
+		
+
+			<wt:ProductRating id="rating" class="sapUiSmallMarginBeginEnd" change=".onRatingChange"/>
+			<content>
+		<List items="{INV>/DATA}">	
+				<StandardListItem			
+					title = "{INV>ProductName}"
+					info = "{INV>Quantity}"
+					description = "{
+				parts: [{path: 'INV>ExtendedPrice'}, {path: 'view>/currency'}],
+				type: 'sap.ui.model.type.Currency',
+				formatOptions: {
+					showMeasure: false
+				}
+			}">
+				</StandardListItem>
+			</List>
+			
+ 		<ObjectHeader
+			responsive="true"
+			fullScreenOptimized="true"
+			number="{
+				parts: [{path: 'INV>ExtendedPrice'}, {path: 'view>/currency'}],
+				type: 'sap.ui.model.type.Currency',
+				formatOptions: {
+					showMeasure: false
+				}
+			}"
+			numberUnit="{view>/currency}"
+			intro="{INV>ShipperName}"
+			title="{INV>ProductName}">
+			<attributes>
+				<ObjectAttribute title="{i18n>quantityTitle}" text="{INV>Quantity}"></ObjectAttribute>
+				<ObjectAttribute title="{i18n>dateTitle}" text="{
+					path: 'INV>ShippedDate',
+					type: 'sap.ui.model.type.Date',
+					formatOptions: {
+					  style: 'long',
+					  source: {
+						pattern: 'yyyy-MM-ddTHH:mm:ss'
+					  }
+					}
+				  }"/>
+			</attributes>
+		</ObjectHeader> 
+		
+		</content>
+		
+	</Page>
+</mvc:View>
