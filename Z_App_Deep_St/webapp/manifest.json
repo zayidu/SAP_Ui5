@@ -1,0 +1,110 @@
+
+{
+	"_version": "1.12.0",
+	"sap.app": {
+		"id": "Z_App_Deep_St.Z_App_Deep_St",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"sourceTemplate": {
+			"id": "ui5template.basicSAPUI5ApplicationProject",
+			"version": "1.40.12"
+		},
+		"dataSources": {
+			"invoiceRemote": {
+				"uri": "proxy/sap/opu/odata/sap/ZPACK_ITEM_SRV",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			}
+		}
+	},
+
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		}
+	},
+
+	"sap.ui5": {
+		"flexEnabled": false,
+		"rootView": {
+			"viewName": "Z_App_Deep_St.Z_App_Deep_St.view.V_Detail",
+			"type": "XML",
+			"async": true,
+			"id": "V_Detail"
+		},
+		"dependencies": {
+			"minUI5Version": "1.60.1",
+			"libs": {
+				"sap.ui.layout": {},
+				"sap.ui.core": {},
+				"sap.m": {}
+			}
+		},
+	"models": {
+	  "DATA": {
+	  	"type": "sap.ui.model.odata.ODataModel",
+		"dataSource": "invoiceRemote"
+		},
+	},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "Z_App_Deep_St.Z_App_Deep_St.i18n.i18n"
+				}
+			}
+		},
+		"resources": {
+			"css": [{
+				"uri": "css/style.css"
+			}]
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"async": true,
+				"viewPath": "Z_App_Deep_St.Z_App_Deep_St.view",
+				"controlAggregation": "pages",
+				"controlId": "app",
+				"clearControlAggregation": false
+			},
+			"routes": [{
+				"name": "RouteV_Detail",
+				"pattern": "RouteV_Detail",
+				"target": ["TargetV_Detail"]
+			}],
+			"targets": {
+				"TargetV_Detail": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewId": "V_Detail",
+					"viewName": "V_Detail"
+				}
+			}
+		}
+	}
+}
