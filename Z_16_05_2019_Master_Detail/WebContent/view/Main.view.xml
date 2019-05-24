@@ -1,0 +1,10 @@
+<mvc:View controllerName="sap.ui.opensap.controller.Main"
+	xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" displayBlock="true">
+
+	<Page title="Master Page">
+		<content>
+			
+		</content>
+	</Page>
+
+</mvc:View>

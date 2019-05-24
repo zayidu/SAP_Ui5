@@ -1,0 +1,10 @@
+<mvc:View controllerName="sap.ui.opensap.controller.FullScreen"
+	xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" displayBlock="true">
+
+	<Page title="Full Screen Page">
+		<content>
+			<Button id="idButton_Full" text="Master View" press="onShowMaster"></Button>
+		</content>
+	</Page>
+
+</mvc:View>

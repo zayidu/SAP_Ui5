@@ -1,0 +1,10 @@
+<mvc:View controllerName="sap.ui.opensap.controller.Empty"
+	xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" displayBlock="true">
+
+	<Page title="Empty Page">
+		<content>
+			<Button id="idButton_Full" text="Full Screen" press="onShowFull"></Button>
+		</content>
+	</Page>
+
+</mvc:View>
