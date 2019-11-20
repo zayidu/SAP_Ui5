@@ -1,0 +1,41 @@
+<mvc:View
+	controllerName="sap.ui.demo.nav.controller.employee.Resume"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc">
+	<Page
+		title="{i18n>ResumeOf} {FirstName} {LastName}"
+		id="employeeResumePage"
+		showNavButton="true"
+		navButtonPress=".onNavBack">
+		<content>
+			<IconTabBar
+				id="iconTabBar"
+				headerBackgroundDesign="Transparent"
+				class="sapUiResponsiveContentPadding"
+				binding="{Resume}"
+				select=".onTabSelect"
+				selectedKey="{view>/selectedTabKey}">
+				<items>
+					<IconTabFilter id="infoTab" text="{i18n>tabInfo}" key="Info">
+						<Text text="{Information}"/>
+					</IconTabFilter>
+					<IconTabFilter id="projectsTab" text="{i18n>tabProjects}" key="Projects">
+						<mvc:XMLView viewName="sap.ui.demo.nav.view.employee.ResumeProjects"></mvc:XMLView>
+					</IconTabFilter>
+					<IconTabFilter id="hobbiesTab" text="{i18n>tabHobbies}" key="Hobbies">
+						<!-- <Text text="{Hobbies}"/> -->
+						<!-- place content via lazy loading -->
+					</IconTabFilter>
+					<IconTabFilter id="notesTab" text="{i18n>tabNotes}" key="Notes">
+						<!-- <Text text="{Notes}"/> -->
+						<!-- place content via lazy loading -->
+						<!-- To illustrate lazy loading, we implement that the content is loaded only when the user selects 
+							the corresponding tab for two of our tabs from the IconTabBar: Hobbies and Notes. The IconTabFilter controls 
+								each have a hard-coded ID so that we can address them later in our routing configuration. In real use cases, 
+								you would do this for tabs that contain a lot of content or trigger expensive service calls to a back-end service. -->
+					</IconTabFilter>
+				</items>
+			</IconTabBar>
+		</content>
+	</Page>
+</mvc:View>
