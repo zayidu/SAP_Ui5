@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv='Content-Type' content='text/html;charset=UTF-8' />
+<title>Z SAPUI5 POS</title>
+
+<!-- only load the mobile lib "sap.m" and the "sap_bluecrystal" theme 
+
+The head part will be used by the browser to process the document. 
+Using meta tags we can influence the behavior of the browser.
+
+In this case we will tell the browser to use UTF-8 as the document character set. We will also give our app a title that 
+will be displayed in the browser. Be aware that our hard-coded title can be overruled by the app, for example to show a 
+title in the language of the user.
+
+SAPUI5 is a JavaScript library that can either be loaded from the same Web server where the app resides, 
+or from a different server. If SAPUI5 is deployed somewhere else on the server or you want to use a different 
+server, then you need to adjust the corresponding paths in the bootstrap (here: src="/resources/sap-ui-core.js") 
+in this tutorial according to your own requirements.
+
+You can use this reference to the latest stable version of SAPUI5 for the tutorial or for testing purposes, 
+but never use this for productive use. In an actual app, you always have to specify an SAPUI5 version explicitly.
+
+For more information about the CDN, see Variant for Bootstrapping from Content Delivery Network.
+
+In case you are using SAP Web IDE, you can right-click the project and select New  HTML5 Application Descriptor 
+to make the /resources… reference work. This creates the neo-app.json file, which configures a URL mapping for this path.
+
+-->
+<script
+		id="sap-ui-bootstrap"
+		src="resources/sap-ui-cachebuster/sap-ui-core.js"
+		data-sap-ui-theme="sap_bluecrystal"
+		data-sap-ui-compatVersion="edge"
+		data-sap-ui-async="true"
+		data-sap-ui-onInit="module:sap/ui/core/ComponentSupport" 
+		data-sap-ui-resourceroots='{
+			"sap.ui.Z": "./"
+		}'>
+</script>
+	
+<!-- 
+
+<script
+		id="sap-ui-bootstrap"
+		src="resources/sap-ui-cachebuster/sap-ui-core.js"
+		data-sap-ui-theme="sap_bluecrystal"
+		data-sap-ui-libs="sap.m"
+		data-sap-ui-compatVersion="edge"
+		data-sap-ui-async="true"
+		data-sap-ui-onInit="module:sap/ui/Z/index"
+		data-sap-ui-resourceroots='{
+			"sap.ui.Z": "./"
+		}'>
+</script>
+
+In this step, we load the SAPUI5 framework from our local webserver and initialize the core modules 
+with the following configuration options:
+The src attribute of the <script> tag tells the browser where to find the SAPUI5 core library 
+– it initializes the SAPUI5 runtime and loads additional resources, such as the libraries specified 
+in the data-sap-ui-libs attribute.
+
+The SAPUI5 controls support different themes, we choose sap_belize as our default theme.
+
+We specify the required UI library sap.m containing the UI controls we need for this tutorial.
+
+To make use of the most recent functionality of SAPUI5 we define the compatibility version as edge.
+
+We configure the process of “bootstrapping” to run asynchronously.
+
+This means that the SAPUI5 resources can be loaded simultaneously in the background for performance reasons.
+
+We define the module to be loaded initially in a declarative way. With this, we avoid directly executable 
+JavaScript code in the HTML file. This makes your app more secure. We will create the script that this references 
+to further down in this step.
+We tell SAPUI5 core that resources in the sap.ui.demo.walkthrough namespace are located in the same folder 
+as index.html. This is, for example, necessary for apps that run in the SAP Fiori launchpad.
+
+Now we declare our component in the body of our index.html. In the bootstrapping script of our index.html,
+ we enable the ComponentSupport module and remove the sap.m library. Then, we declare our component in the 
+ body via a div tag. This will instantiate the component when the onInit event is executed.
+ 
+We will no longer need our index.js from now on, because the descriptor takes care of everything.
+
+ -->	
+
+</head>
+<body class="sapUiBody" role="application">
+	<!--  <div id="content"></div> -->
+	<div 
+		data-sap-ui-component 
+		data-name="sap.ui.Z" 
+		data-id="container" 
+		data-settings='{"id" : "Z"}'></div>
+</body>
+</html>
+
+
+
+
+
+
