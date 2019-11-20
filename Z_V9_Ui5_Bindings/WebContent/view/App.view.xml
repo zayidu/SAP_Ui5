@@ -1,0 +1,227 @@
+<mvc:View
+	controllerName="sap.ui.Z.controller.App"
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:mvc="sap.ui.core.mvc">
+	<Panel headerText="{i18n>panelHeaderText}" class="sapUiResponsiveMargin" width="auto">
+		<content>
+			<Label text="{i18n>firstName}" class="sapUiSmallMargin"/>
+			<Input value="{/firstName}" valueLiveUpdate="true" width="200px" enabled="{/enabled}"/>
+			<Label text="{i18n>lastName}" class="sapUiSmallMargin"/>
+			<Input value="{/lastName}" valueLiveUpdate="true" width="200px" enabled="{/enabled}"/>
+			<CheckBox selected="{/enabled}" text="{i18n>enabled}"/>
+		</content>
+	</Panel>
+	<Panel headerText="{i18n>panel2HeaderText}" class="sapUiResponsiveMargin" width="auto">
+		<content>
+			<l:VerticalLayout>
+				<Label class="sapUiSmallMargin" text="{i18n>address}:"/>
+				<FormattedText class="sapUiSmallMarginBegin sapUiSmallMarginBottom" 
+				htmlText="{/address/street}&lt;br&gt;{/address/zip} {/address/city}&lt;br&gt;{/address/country}" width="200px"/>
+				<Link class="sapUiSmallMarginBegin"
+					href="{
+							parts: [
+								'/firstName',
+								'/lastName'
+							],
+							formatter: '.formatMail'
+						}"
+					text="{i18n>sendEmail}"/>
+			</l:VerticalLayout>
+			<l:VerticalLayout>
+					<Label text="{i18n>salesToDate}:" class="sapUiSmallMargin"/>
+					<Input width="200px" enabled="{/enabled}" description="{/currencyCode}"
+						value="{
+							parts: [
+								{path: '/salesToDate'},
+								{path: '/currencyCode'}
+							],
+							type: 'sap.ui.model.type.Currency',
+							formatOptions: {showMeasure: false}
+						}"/>
+				</l:VerticalLayout>
+		</content>
+	</Panel>
+	<Panel headerText="{i18n>panel3HeaderText}" class="sapUiResponsiveMargin" width="auto">
+		<content>
+			<List headerText="{i18n>productListTitle}" items="{products>/Products}">
+				<items>
+					<ObjectListItem  
+					press=".onItemSelected"
+		    		type="Active"
+					title="{products>ProductName}"
+						number="{
+							parts: [
+								{path: 'products>UnitPrice'},
+								{path: '/currencyCode'}
+							],
+							type: 'sap.ui.model.type.Currency',
+							formatOptions: { showMeasure: false }
+						}"
+						numberUnit="{/currencyCode}"
+						numberState="{= ${products>UnitPrice} > ${/priceThreshold} ? 'Error' : 'Success' }">
+						<attributes>
+							<ObjectAttribute text="{products>QuantityPerUnit}"/>
+							<ObjectAttribute title="{i18n>stockValue}"
+								text="{
+									parts: [
+										{path: 'products>UnitPrice'},
+										{path: 'products>UnitsInStock'},
+										{path: '/currencyCode'}
+									],
+									formatter: '.formatStockValue'
+								}"/>
+						</attributes>
+					</ObjectListItem>
+				</items>
+			</List>
+		</content>
+	</Panel>
+	<Panel id="productDetailsPanel" headerText="{i18n>panel4HeaderText}" class="sapUiResponsiveMargin" width="auto">
+    <l:Grid defaultSpan="L3 M6 S12" containerQuery="true">
+        <Label text="{i18n>ProductID}:" />
+        <Input value="{products>ProductID}" />
+        
+        <Label text="{i18n>ProductName}:" />
+        <Input value="{products>ProductName}" />
+
+        <Label text="{i18n>QuantityPerUnit}:" />
+        <Input value="{products>QuantityPerUnit}" />
+        
+        <Label text="{i18n>UnitPrice}:" />
+        <Input value="{products>UnitPrice}" />
+        
+        <Label text="{i18n>UnitsInStock}:" />
+        <Input value="{products>UnitsInStock}" />
+        
+        <Label text="{i18n>Discontinued}:" />
+        <CheckBox selected="{products>Discontinued}" />
+    </l:Grid>    
+  </Panel>
+</mvc:View>
+
+
+<!-- <mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc">
+  <Panel headerText="{/panelHeaderText}" class="sapUiResponsiveMargin" width="auto">
+    <content>
+      <Label text="First Name" class="sapUiSmallMargin" />
+      <Input value="{/firstName}" valueLiveUpdate="true" width="200px" enabled="{/enabled}" />
+      <Label text="Last Name" class="sapUiSmallMargin" />
+      <Input value="{/lastName}" valueLiveUpdate="true" width="200px" enabled="{/enabled}" />
+      <CheckBox selected="{/enabled}" text="Enabled" />
+    </content>
+  </Panel>
+</mvc:View> -->
+
+
+<!-- In the examples used so far, we have used a read-only field to display 
+	the value of a model property. We will now change the user interface so that 
+	the first and last name fields are displayed using sap.m.Input fields and 
+	an additional check box control is used to enable or disable both input fields. 
+	This arrangement illustrates a feature known as "two-way data binding". Now 
+	that the view contains more controls, we will also move the view definition 
+	into an XML file. Modify the data binding for the panel header and the labels 
+	in App.view.xml to include the model name. Notice that a "greater than" character 
+	separates the model name and the property name, and that i18n property names 
+	must not start with a slash character. You could use multiple model instances 
+	by using different model names. The model name could be set as second parameter 
+	using the setModel(oResourceModel,“i18n”) method. The model is then propagated 
+	under this name to all aggregated child controls (and their children, and 
+	so on…). All these controls have access to this model under the name i18n 
+	as well as to the JSONModel (default model, which has no name). In the i18n 
+	folder, take a copy of the file i18n.properties and call it i18n_de.properties. 
+	Change the English text to the German text. To test the outcome, change the 
+	default language of your browser to German and refresh your preview. We add 
+	a new panel to the XML view with a new Label and Text pair of elements. The 
+	text property of the Label element is bound to the i18n resource bundle field 
+	address. The text property of the Text element is bound to three i18n properties: 
+	/address/street, /address/zip, /address/city, and /address/country. The resulting 
+	address format is achieved by separating each one of these model property 
+	references with a hard-coded newline character while zip and city are separated 
+	by a space. Note: The resource bundle files now contain new properties for 
+	the Address and a new panel header text. Both panel properties have been 
+	numbered. In the XML view, inside the curly brackets for the binding path 
+	of the Text element, notice that the first character is a forward slash. 
+	This is required for binding paths that make absolute references to properties 
+	in JSON and OData models, but must not be used for resource models. After 
+	the first forward slash character, the binding path syntax uses the object 
+	names and the property name separated by forward slash characters ({/address/street}). 
+	As has been mentioned previously, all binding path names are case-sensitive. 
+	
+	
+	For more complex bindings we cannot use the simple binding syntax with the 
+	curly braces anymore. The href property of the Link element now contains 
+	an entire object inside the string value. In this case, the object has two 
+	properties: 
+	parts :
+	This is a JavaScript array in which each element is an 
+	object containing a path property. The number and order of the elements in 
+	this array corresponds directly to the number and order of parameters expected 
+	by the formatMail function. 
+	formatter :
+	A reference to the function that receives 
+	the parameters listed in the parts array. Whatever value is returned by the 
+	formatter function becomes the value set for this property. The dot ( formatMail) 
+	at the beginning of the formatter tellsSAPUI5 to look for a formatMail function 
+	on the controller instance of the view. If you do not use the dot, the function 
+	will be resolved by looking into the global namespace. 
+	
+	
+	A new pair of Label and Input elements have been created for the salesToDate model property. 
+	The description property of the Input element has been bound to the currencyCode model property. 
+	The value property of the Input element has been bound to the model properties salesToDate and currencyCode. 
+	The {showMeasure: false} parameter switches off the display of the currency symbol within the input field itself. 
+	This is not needed because it is being displayed using the Input element's description property.
+	
+	So far, we have created a currency field that can format itself correctly. 
+	The currency data type also has the ability to validate that user input adheres to to the requirements of a currency; 
+	however, data type validation functions are managed by SAPUI5 , which of itself has no mechanism for reporting error 
+	messages back to the UI; therefore, we need a mechanism for reporting error messages raised by validation functions back 
+	to the user. In this step, we will connect the entire view to a feature known as the "Message Manager". Once this connection 
+	is established, any validation error messages generated based on the user input will be passed to the message manager which 
+	in turn will connect them to the appropriate view and control that caused the error.
+	
+	
+	We add a new property called priceThreshold against which each invoice value will be checked.
+
+As a result of binding an expression to the numberState property, the error status (color) of the price field will 
+change depending on the invoice value.
+
+Look at the following two expressions:
+numberState="{= ${products>UnitPrice} > ${/priceThreshold} ? 'Error' : 'Success' }"
+
+numberState="{= ${products>UnitPrice} <= ${/priceThreshold} ? 'Success' : 'Error' }"
+
+Can you see why one of these expressions will work, and the other will not?
+Logically, both expressions are identical; yet the first one works, and the second does not: it produces only 
+an empty screen and an "Invalid XML" message in the browser's console… Hmmm, what's going on here?
+
+In order to understand why this situation occurs, you must understand how XML files are parsed.
+
+When an XML file is parsed, certain characters have a special (that is, high priority) meaning to the XML parser. 
+When such characters are encountered, they are always interpreted to be part of the XML definition itself and not 
+part of any other content that might exist within the XML document.
+
+As soon as the XML parser encounters one of these high-priority characters (in this case, a less-than (<) character), 
+it will always be interpreted as the start of a new XML tag – irrespective of any other meaning that character might 
+have within the context of the expression. This is known as a syntax collision.
+
+In this case, the collision occurs between the syntax of XML and the syntax of the JavaScript-like expression language 
+used by SAPUI5.
+
+Therefore, this statement fails because the less-than character is interpreted as the start 
+of an XML tag: numberState="{= ${products>UnitPrice} <= ${/priceThreshold} ? 'Success' : 'Error' }"
+
+This particular problem can be avoided in one of two ways:
+Reverse the logic of the condition (use "greater than or equal to" instead of "less than")
+
+Use the escaped value for the less-than 
+character: numberState="{= ${products>UnitPrice} &lt;= ${/priceThreshold} ? 'Success' : 'Error' }"
+
+Since the use of an escaped character is not so easy to read, the preferred approach is to reverse the logic of the 
+condition and use a greater-than character instead.
+The ampersand (&) character also has a high priority meaning to the XML parser. This character will always 
+be interpreted to mean "The start of an escaped character". So if you wish to use the Boolean AND 
+operator (&&) in a condition, you must escape both ampersand characters (&amp;&amp;).
+	
+	-->

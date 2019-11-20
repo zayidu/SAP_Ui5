@@ -1,0 +1,109 @@
+ <mvc:View controllerName="sap.ui.Z.controller.InvoiceList"
+	xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc">
+	<List headerText="{i18n>invoiceListTitle}" id="invoiceList"
+		class="sapUiResponsiveMargin" width="auto" 
+		items="{
+         path : 'invoice>/Invoices'
+      }"
+		>
+		<headerToolbar>
+         <Toolbar>
+            <Title text="{i18n>invoiceListTitle}"/>
+            <ToolbarSpacer/>
+            <SearchField width="50%" search=".onFilterInvoices"/>
+         </Toolbar>
+      </headerToolbar>
+		<items>
+			<ObjectListItem
+				title="{invoice>Quantity} x {invoice>ProductName}"
+				number="{
+			parts: [{path: 'invoice>ExtendedPrice'}, {path: 'view>/currency'}],
+			type: 'sap.ui.model.type.Currency',
+			formatOptions: {
+				showMeasure: false
+			}
+		}"
+				numberUnit="{view>/currency}" 
+			numberState="{= ${invoice>ExtendedPrice} > 50 ? 'Error' : 'Success'
+			}"
+					type="Navigation"
+					press="onPress">
+			<firstStatus>
+				<ObjectStatus
+					text="{
+						path: 'invoice>Status',
+						formatter: '.formatter.statusText'
+					}" />
+			</firstStatus>
+		</ObjectListItem>
+		</items>
+	</List>
+</mvc:View> 
+
+<!-- 
+
+The new view is displaying a list control with a custom header text. The item aggregation of the list is bound to 
+the root path Invoices of the JSON data. And since we defined a named model, we have to prefix each binding definition 
+with the identifier invoice>.
+
+In the items aggregation, we define the template for the list that will be automatically repeated for each invoice 
+of our test data. More precisely, we use an ObjectListItem to create a control for each aggregated child of the items aggregation. The title property of the list item is bound to properties of a single invoice. This is achieved by defining a relative path (without / in the beginning). This works because we have bound the items aggregation via items={invoice>/Invoices} to the invoices.
+
+
+We add a price to our invoices list in the view by adding the number and numberUnit attributes to the ObjectListItem control,
+ then we apply the currency data type on the number by setting the type attribute of the binding syntax 
+ to sap.ui.model.type.Currency.
+
+As you can see above, we are using a special binding syntax for the number property of the ObjectListItem. 
+This binding syntax makes use of so-called "Calculated Fields", which allows the binding of multiple properties 
+from different models to a single property of a control. The properties bound from different models are called “parts”. 
+In the example above, the property of the control is number and the bound properties (“parts”) retrieved 
+from two different models are invoice>ExtendedPrice and view>/currency.
+
+We want to display the price in Euro, and typically the currency is part of our data model on the back end. 
+In our case this is not the case, so we need to define it directly in the app. We therefore add a controller 
+for the invoice list, and use the currency property as the second part of our binding syntax. The Currency type 
+will handle the formatting of the price for us, based on the currency code. In our case, the price is displayed with 2 decimals.
+
+Additionally, we set the formatting option showMeasure to false. This hides the currency code in the property number, 
+because it is passed on to the ObjectListItem control as a separate property numberUnit.
+
+We add the property numberState in our declarative view and introduce a new binding syntax that 
+starts with = inside the brackets. This symbol is used to initiate a new binding syntax, it's called an expression 
+and can do simple calculation logic like the ternary operator shown here.
+
+The condition of the operator is a value from our data model. A model binding inside an expression binding 
+has to be escaped with the $ sign as you can see in the code. We set the state to 'Error' (the number will appear in red) 
+if the price is higher than 50 and to ‘Success’ (the number will appear in green) otherwise.
+
+Expressions are limited to a particular set of operations that help formatting the data such as 
+Math expression, comparisons, and such. You can lookup the possible operations in the documentation.
+
+Conventions
+Only use expression binding for trivial calculations.
+
+We add a status using the firstStatus aggregation to our ObjectListItem that will display the status of our invoice. 
+The custom formatter function is specified with the reserved property formatter of the binding syntax. 
+A "." in front of the formatter name means that the function is looked up in the controller of the current view. 
+There we defined a property formatter that holds our formatter functions, so we can access it by .formatter.statusText.
+
+The view is extended by a search control that we add to the list of invoices. 
+We also need to specify an ID invoiceList for the list control to be able to identify the list from the 
+event handler function onFilterInvoices that we add to the search field. In addition, the search field is part of the 
+list header and therefore, each change on the list binding will trigger a rerendering of the whole list, including 
+the search field.
+
+The headerToolbar aggregation replaces the simple title property that we used before for our list header. 
+A toolbar control is way more flexible and can be adjusted as you like. We are now displaying the title on the 
+left side with a sap.m.Title control, a spacer, and the sap.m.SearchField on the right.
+
+We modify the view and add a different sorter, or better; we change the sorter and set the 
+attribute group to true. We also specify the path to the ShipperName data field. This groups 
+the invoice items by the shipping company.
+
+As with the sorter, no further action is required. The list and the data binding features of 
+SAPUI5 will do the trick to display group headers automatically and categorize the items in the groups. 
+We could define a custom grouping function if we wanted by setting the groupHeaderFactory property, 
+but the result looks already fine.
+
+ -->

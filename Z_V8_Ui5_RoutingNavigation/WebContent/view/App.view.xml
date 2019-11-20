@@ -1,0 +1,231 @@
+<!-- 
+SAPUI5 supports multiple view types (XML, HTML, JavaScript). 
+We choose XML as this produces the most readable code and will force us to separate 
+the view declaration from the controller logic. Yet the look of our UI will not change.
+
+Inside the view tag, we add the declarative definition of our text control with the 
+same properties as in the previous step. The XML tags are mapped to controls and the 
+attributes are mapped to the properties of the control.
+
+Conventions:
+View names are capitalized
+
+All views are stored in the view folder
+
+Names of XML views always end with *.view.xml
+
+The default XML namespace is sap.m
+
+Other XML namespaces use the last part of the SAP namespace as alias (for example, mvc for sap.ui.core.mvc)
+
+We add a reference to the controller, and replace the text control with a button with text “Say Hello”. 
+The button triggers the .onShowHello event handler function when being pressed. We also have to specify 
+the name of the controller that is connected to the view and holds the .onShowHello function by setting 
+the controllerName attribute of the view.
+
+A view does not necessarily need an explicitly assigned controller. You do not have to create a controller 
+if the view is just displaying information and no additional functionality is required. If a controller is specified, 
+it is instantiated after the view is loaded.
+
+Our App view is now only containing the empty app tag. The router will automatically add 
+the view that corresponds to the current URL into the app control. 
+The router identifies the app control with the ID that corresponds to the property controlId: “app” in the AppDescriptor.
+
+ -->
+
+<mvc:view controllerName="sap.ui.Z.controller.App"
+	xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" displayBlock="true">
+	<Shell>
+			<App class="myAppDemoWT" id="app"/>
+<!-- 		<App class="myAppDemoWT">
+			<pages>
+				<Page title="{i18n>homePageTitle}"
+					width="auto">
+					<headerContent>
+						<Button
+							icon="sap-icon://hello-world"
+							text="X"
+							press=".onOpenDialog"/>
+					</headerContent>
+					<content>
+						<mvc:XMLView viewName="sap.ui.Z.view.HelloPanel"/>
+						<mvc:XMLView viewName="sap.ui.Z.view.InvoiceList"/>
+					</content>
+				</Page>
+			</pages>
+		</App> -->
+	</Shell>
+	
+<!-- 
+
+V1:
+<mvc:View
+	controllerName="sap.ui.demo.walkthrough.controller.App"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	displayBlock="true">
+	<Shell>
+		<App>
+			<pages>
+				<Page title="{i18n>homePageTitle}">
+					<content>
+						<Panel
+							headerText="{i18n>helloPanelTitle}"
+							class="sapUiResponsiveMargin"
+							width="auto">
+							<content>
+								<Button
+									text="{i18n>showHelloButtonText}"
+									press=".onShowHello"
+									class="sapUiSmallMarginEnd"/>
+								<Input
+									value="{/recipient/name}"
+									valueLiveUpdate="true"
+									width="60%"/>
+								<Text
+									text="Hello {/recipient/name}"
+									class="sapUiSmallMargin"/>
+
+							</content>
+						</Panel>
+					</content>
+				</Page>
+			</pages>
+		</App>
+	</Shell>
+</mvc:View>
+
+V2:
+<mvc:view controllerName="sap.ui.Z.controller.App"
+	xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" displayBlock="true">
+	<Shell>
+		<App class="myAppDemoWT">
+			<pages>
+				<Page title="{i18n>homePageTitle}"
+					width="auto">
+					<content>
+						<Panel headerText="{i18n>helloPanelTitle}">
+							<content>
+								<Button text="{i18n>buttonText}" press=".onShowH"
+									class="myCustomButton" />
+								<Input value="{/recipient/name}"
+									description="Bien Venue {/recipient/name}"
+									valueLiveUpdate="true" width="60%" />
+								<FormattedText
+									htmlText="Salut {/recipient/name}"
+									class="sapUiSmallMargin sapThemeHighlight-asColor myCustomText"/>
+							</content>
+						</Panel>
+					</content>
+				</Page>
+			</pages>
+		</App>
+	</Shell>
+</mvc:View>
+
+
+We add an sap.m.Input control to the view. With this, the user can enter a recipient 
+for the greetings. We bind its value to a SAPUI5 model by using the declarative binding 
+syntax for XML views:
+
+The curly brackets {…} indicate that data is taken from the value of the recipient's 
+object name property. This is called "data binding".
+
+/recipient/name declares the path in the model.
+
+
+The binding of the value attribute is a simple binding example that contains only a 
+binding pattern. We can also combine texts and binding pattern to a more complex binding 
+result as seen in the description attribute. To be able to use the so-called complex binding 
+syntax we have to enable it globally by setting the bootstrap parameter data-sap-ui-compatVersion to edge. 
+If this setting is omitted, then only standard binding syntax is allowed, meaning "Hello {/recipient/name}" 
+would not work anymore while "{/recipient/name}" would work just fine.
+
+Note
+You can either use data-sap-ui-compatVersion="edge" or data-sap-ui-bindingSyntax="complex" in the script. 
+By setting the "edge" compatibility mode, the complex binding syntax is automatically enabled. 
+The edge mode automatically enables compatibility features that otherwise would have to be enabled manually. 
+For more information, see Compatibility Version Information.
+
+We create the folder webapp/i18n and the file i18n.properties inside. 
+The resolved bundle name is sap.ui.demo.walkthrough.i18n, as we will see later. 
+The properties file for texts contains name-value pairs for each element. 
+You can add any number of parameters to the texts by adding numbers in curly brackets to them. 
+These numbers correspond to the sequence in which the parameters are accessed (starting with 0).
+
+In this tutorial we will only have one properties file. However, in real-world projects, 
+you would have a separate file for each supported language with a suffix for the locale, 
+for example i18n_de.properties for German, i18n_en.properties for English, and so on. When a user runs the app, 
+SAPUI5 will load the language file that fits best to the user's environment.
+
+In the XML view, we use data binding to connect the button text to the ButtonText property 
+in the i18n model. A resource bundle is a flat structure, therefore the preceding slash (/) can be omitted for the path.
+
+Note
+The description text is not completely localized in this example for illustration purposes. 
+To be on the safe side, we would have to use a similar mechanism as in the controller to use a
+ string from the resource bundle and replace parts of it. This can be done with the jQuery.sap.formatMessage formatter.
+
+Furthermore, i18n files only impact client-side application texts. Texts that are loaded from 
+back-end systems can appear in all languages that are supported by the back-end system.
+
+Conventions:
+The resource model for internationalization is called the i18n model.
+
+The default filename is i18n.properties.
+
+Resource bundle keys are written in (lower) camelCase.
+
+Resource bundle values can contain parameters like {0}, {1}, {2}, …
+
+Never concatenate strings that are translated, always use placeholders.
+
+Use Unicode escape sequences for special characters.
+
+
+We put both the input field and the button inside a containing control called sap.m.Page. The page 
+provides an aggregation to 0..N other controls called content. It also displays the title attribute 
+in a header section on top of the content. The page itself is placed into the pages aggregation of another 
+control called sap.m.App which does the following important things for us:
+
+It writes a bunch of properties into the header of the index.html that are necessary for proper display on mobile devices.
+
+It offers functionality to navigate between pages with animations. We will use this soon.
+
+In order to make the fullscreen height of the view work properly, we add the displayBlock attribute 
+with the value true to the view. The actual content is wrapped inside a Panel control, in order to group related content.
+
+The shell control is now the outermost control of our app and automatically displays a so-called letterbox, 
+if the screen size is larger than a certain width.
+
+Note:
+We do not add the Shell control to the declarative UI definition in the XML view, because apps that run in an external shell, like the 
+SAP Fiori launchpad, there will already be a shell around the component UI.
+
+To layout the panel, we add the CSS class sapUiResponsiveMargin that will add some space around the panel. We have to set the width of the panel to auto since the margin would otherwise be added to the default width of 100% and exceed the page size.
+
+If you decrease the screen size, then you can actually see that the margin also decreases. As the name suggests, the margin is responsive and adapts to the screen size of the device. Tablets will get a smaller margin and phones in portrait mode will not 
+get a margin to save space on these small screens.
+
+Margins can be added to all kinds of controls and are available in many different options. We can even add space between 
+the button and the input field by adding class sapUiSmallMarginEnd to the button.
+
+To format the output text individually, we remove the description from the input field and add a new Text control with 
+the same value. Here we also use a small margin to align it with the other content. Similarly, we could add the standard 
+padding classes to layout the inner parts of container controls such as our panel, but as it already brings a padding 
+by default, this is not needed here.
+
+Conventions
+Use the standard SAPUI5 CSS classes for the layout if possible.
+
+Caution
+As stated in the Compatibility Rules, the HTML and CSS generated by SAPUI5 is not part of the public API and may change 
+in patch and minor releases. If you decide to override styles, you have the obligation to test and update your 
+modifications each time SAPUI5 is updated. A prerequisite for this is that you have control over the version of 
+SAPUI5 being used, for example in a standalone scenario. This is not possible when running 
+your app in the SAP Fiori launchpad where SAPUI5 is centrally loaded for all apps. As such, SAP Fiori launchpad apps should not override styles.
+
+ -->		
+	
+</mvc:view>			
+		

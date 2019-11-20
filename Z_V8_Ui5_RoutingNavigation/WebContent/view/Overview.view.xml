@@ -1,0 +1,26 @@
+<mvc:View
+		controllerName="sap.ui.Z.controller.App"
+		xmlns="sap.m"
+		xmlns:mvc="sap.ui.core.mvc">
+	<Page title="{i18n>homePageTitle}">
+		<headerContent>
+			<Button
+					icon="sap-icon://hello-world"
+					press=".onOpenDialog"/>
+		</headerContent>
+		<content>
+			<mvc:XMLView viewName="sap.ui.Z.view.HelloPanel"/>
+			<mvc:XMLView viewName="sap.ui.Z.view.InvoiceList"/>
+		</content>
+	</Page>
+</mvc:View>
+
+
+<!-- 
+We move the content of the previous steps from the App view to a new Overview view. 
+For simplicity, we do not change the controller as it only contains our helper method to open the dialog, 
+that means we reuse the controller sap.ui.demo.walkthrough.controller.App for two different views 
+(for the new overview and for the app view). However, two instances of that controller are instantiated at runtime. 
+In general, one instance of a controller is instantiated for each view that references the controller.
+
+ -->
